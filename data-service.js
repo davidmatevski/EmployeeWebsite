@@ -281,6 +281,7 @@ module.exports.deleteDepartmentById= function(id){
         Department.destroy({where: {departmentId : id}})
         .then(()=>{
             console.log("department deleted");
+            console.log("wooohoo");
             resolve();
         }).catch(()=>{
             reject();

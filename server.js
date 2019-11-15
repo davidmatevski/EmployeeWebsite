@@ -6,7 +6,7 @@
 *
 * Name: David Matevski Student ID: 117712182 Date: September 25, 2019
 *
-* Online (Heroku) Link: https://rocky-river-66381.herokuapp.com/
+* Online (Heroku) Link: https://fathomless-journey-34215.herokuapp.com/
 *
 ********************************************************************************/ 
 
@@ -268,7 +268,7 @@ app.post("/department/update", (req,res)=>{
     .then(()=>{
         res.redirect("/departments");
     }).catch(()=>{
-        res.status(500).send("unable to update department");
+        res.status(500).send("unable to update department :(");
     })
 })
 
