@@ -249,11 +249,12 @@ module.exports.updateDepartment = function(departmentData){
 
         for(prop in departmentData){
 
-            if(departmentData.prop == ""){
-                departmentData.prop = null;
+            if(departmentData[prop] == ""){
+                departmentData[prop] = null;
             }
         }
-        Department.update({departmentData, where:{departmentId : departmentData.departmentId}})
+        Department.update(departmentData, 
+            {where:{departmentId : departmentData.departmentId}})
         .then(()=>{
             console.log("Sucessfully updated department");
             resolve();
@@ -270,7 +271,7 @@ module.exports.getDepartmentById=function(id){
     return new Promise((resolve, reject)=>{
         Department.findAll({where:{departmentId : id}})
         .then((dep)=>{
-            resolve(dep[0]);
+            resolve(dep[0].dataValues);
         }).catch(()=>{
             reject();
         })
