@@ -100,27 +100,29 @@ app.get("/register", (req,res)=>{
 });
 
 app.post("/register", (req,res)=>{
-    dataServiceAuth.RegisterUser(req.body)
+    dataServiceAuth.registerUser(req.body)
     .then(()=>{
-        res.render({successMessage: "User created"})
+        res.render("register",{successMessage: "User created"})
     })
-    .catch(()=>{
-        res.render({errorMessage: err, userName: req.body.userName});
+    .catch((err)=>{
+        res.render("register",{errorMessage: err, userName: req.body.userName});
     });
 });
 
 app.post("/login", (req,res)=>{
     req.body.userAgent = req.get('User-Agent');
     dataServiceAuth.checkUser(req.body)
+    .then((user) => {req.session.user = {
+            userName: user.userName,
+            email: user.email,
+            loginHistory: user.loginHistory
+        }
+        res.redirect('/employees');
+    })
     .catch((err)=>{
         res.render("login", {errorMessage: err, userName: req.body.userName});
     })
-    .then((user) => {req.session.user = {
-        userName: user.userName,
-        email: user.email,
-        loginHistory: user.loginHistory
-    }
-    res.redirect('/employees');})
+    
 });
 
 app.get("/logout", (req,res)=>{
@@ -391,9 +393,9 @@ dataService.initialize().then(dataServiceAuth.initialize)
     app.listen(HTTP_PORT, function(){
         console.log("app listening on: " + HTTP_PORT)});
     })
-        .catch(function(err){
-            console.log("unable to start server: " + err);
-        });
+    .catch(function(err){
+        console.log("unable to start server: " + err);
+    });
 
 
 
